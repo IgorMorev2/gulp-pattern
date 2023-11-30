@@ -20,6 +20,7 @@ import { js } from './gulp/tasks/js.js';
 import { images } from './gulp/tasks/images.js';
 import { otfToTtf, ttfToWoff, fontsStyle } from './gulp/tasks/fonts.js';
 import { sprite } from './gulp/tasks/svg-sprite.js';
+import { deploy } from './gulp/tasks/deploy.js';
 
 function watcher() {
     gulp.watch(path.watch.files, copy);
@@ -34,7 +35,7 @@ const fonts = gulp.series(otfToTtf, ttfToWoff, fontsStyle);
 const mainTasks = gulp.series(fonts, gulp.parallel(copy, html, scss, js, images, sprite));
 
 const dev = gulp.series(reset, mainTasks, gulp.parallel(watcher, server));
-const build = gulp.series(reset, mainTasks);
+const build = gulp.series(reset, mainTasks, deploy);
 
 export { dev, build }
 
